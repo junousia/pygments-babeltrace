@@ -1,9 +1,8 @@
-import re
-
 from pygments.lexer import RegexLexer, bygroups, include
-from pygments.token import *
+from pygments.token import Name, Operator, Punctuation, Number, Text, String
 
 __all__ = ['BabeltraceLexer']
+
 
 class BabeltraceLexer(RegexLexer):
     name = 'Babeltrace'
@@ -33,8 +32,9 @@ class BabeltraceLexer(RegexLexer):
             include('punctuation'),
         ],
         'keyval': [
-            (r'(\w+)\s(=)\s(")([^"]+)(")', bygroups(Name.Attribute, Operator, Punctuation, String, Punctuation)),
-            (r'(\w+)\s(=)\s(\d+)', bygroups(Name.Attribute, Operator, Number)),
+            (r'(\w+)(\s=\s)([0-9A-Fa-fx]+)', bygroups(Name.Attribute, Operator, Number.Hex)),
+            (r'(\w+)(\s=\s)(")([^"]+)(")', bygroups(Name.Attribute, Operator, Punctuation, String, Punctuation)),
+            (r'(\w+)(\s=\s)(\d+)', bygroups(Name.Attribute, Operator, Number.Integer)),
             (r'}', Punctuation, '#pop'),
             include('punctuation'),
             include('blank')
