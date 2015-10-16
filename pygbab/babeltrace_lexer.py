@@ -20,7 +20,7 @@ class BabeltraceLexer(RegexLexer):
             include('blank')
         ],
         'diff': [
-            (r'[0-9]+', Name.Variable),
+            (r'[0-9\?]+', Name.Variable),
             (r'\+', Operator),
             (r'\)', Punctuation, '#pop'),
             include('punctuation'),
@@ -32,18 +32,18 @@ class BabeltraceLexer(RegexLexer):
             include('punctuation'),
         ],
         'keyval': [
-            (r'(\w+)(\s=\s)(0x[0-9A-Fa-f]+)', bygroups(Name.Attribute, Operator, Number.Hex)),
+            (r'(\w+)(\s=\s)(0x)([0-9A-Fa-f]+)', bygroups(Name.Attribute, Operator, Number.Hex, Number.Hex)),
             (r'(\w+)(\s=\s)(")([^"]*)(")', bygroups(Name.Attribute, Operator, Punctuation, String, Punctuation)),
             (r'(\w+)(\s=\s)(\d+\.\d+)', bygroups(Name.Attribute, Operator, Number.Float)),
             (r'(\w+)(\s=\s)(\d+)', bygroups(Name.Attribute, Operator, Number.Integer)),
             (r'}', Punctuation, '#pop'),
-            (r'(\w+)(\s=\s)\[', Punctuation, 'sequence'),
+            (r'(\w+)(\s=\s)(\[)', bygroups(Name.Attribute, Operator, Punctuation), 'sequence'),
             include('punctuation'),
             include('blank')
         ],
         'sequence': [
-            (r'(\[)(\d+)(\])(\s=\s)(\d+)', bygroups(Punctuation, Name.Constant, Punctuation, Punctuation, Number.Integer)),
-            (r'(\[)(\d+)(\])(\s=\s)([0-9A-Fa-fx]+)', bygroups(Punctuation, Name.Constant, Punctuation, Punctuation, Number.Hex)),
+            (r'(\[)(\d+)(\])(\s=\s)(\d+)', bygroups(Punctuation, Name.Constant, Punctuation, Operator, Number.Integer)),
+            (r'(\[)(\d+)(\])(\s=\s)(0x)([0-9A-Fa-fx]+)', bygroups(Punctuation, Name.Constant, Punctuation, Operator, Number.Hex, Number.Hex)),
             (r'\s(\])', Punctuation, '#pop'),
             include('punctuation'),
             include('blank')
