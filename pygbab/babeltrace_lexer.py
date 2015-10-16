@@ -32,8 +32,9 @@ class BabeltraceLexer(RegexLexer):
             include('punctuation'),
         ],
         'keyval': [
-            (r'(\w+)(\s=\s)([0-9A-Fa-fx]+)', bygroups(Name.Attribute, Operator, Number.Hex)),
-            (r'(\w+)(\s=\s)(")(.*?)(")', bygroups(Name.Attribute, Operator, Punctuation, String, Punctuation)),
+            (r'(\w+)(\s=\s)(0x[0-9A-Fa-f]+)', bygroups(Name.Attribute, Operator, Number.Hex)),
+            (r'(\w+)(\s=\s)(")([^"]+)(")', bygroups(Name.Attribute, Operator, Punctuation, String, Punctuation)),
+            (r'(\w+)(\s=\s)(\d+\.\d+)', bygroups(Name.Attribute, Operator, Number.Float)),
             (r'(\w+)(\s=\s)(\d+)', bygroups(Name.Attribute, Operator, Number.Integer)),
             (r'}', Punctuation, '#pop'),
             (r'(\w+)(\s=\s)\[', Punctuation, 'sequence'),
